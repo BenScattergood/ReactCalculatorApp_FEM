@@ -100,6 +100,21 @@
   --t1-keys-text-equals: hsl(0, 0%, 100%);
   --t1-header: hsla(0, 0%, 100%, 1);
 
+  --t2-bg-100: hsl(222, 26%, 31%);
+  --t2-bg-200: hsl(223, 31%, 20%);
+  --t2-bg-300: hsl(224, 36%, 15%);
+  --t2-keys-bg-reset: hsl(225, 21%, 49%);
+  --t2-keys-shadow-reset: hsl(224, 28%, 35%);
+  --t2-keys-toggle-reset: hsla(184, 40%, 56%, 1);
+  --t2-keys-bg-equals: hsl(6, 63%, 50%);
+  --t2-keys-shadow-equals: hsl(6, 70%, 34%);
+  --t2-keys-toggle-equals: hsla(25, 100%, 61%, 1);
+  --t2-keys-bg-regular: hsl(30, 25%, 89%);
+  --t2-keys-shadow-regular: hsl(28, 16%, 65%);
+  --t2-keys-toggle-regular: hsla(0, 0%, 100%, 1);
+  --t2-keys-text-regular: hsl(221, 14%, 31%);
+  --t2-keys-text-equals: hsl(0, 0%, 100%);
+  --t2-header: hsla(0, 0%, 100%, 1);
 
   --current-bg-100: var(--t1-bg-100);
   --current-bg-200: var(--t1-bg-200);
@@ -211,11 +226,24 @@ body {
   flex-direction: column;
   /* align-items: center; */
   padding-top: 4rem;
+  gap: 2.5rem;
 }
 
 .wrapper {
   max-width: 375px;
-  padding-inline: 3rem;
+  margin-inline: 3rem;
+}
+
+.flex-start {
+  justify-content: flex-start;
+}
+
+.center {
+  justify-content: center;
+}
+
+.flex-end {
+  justify-content: flex-end;
 }
 
 
@@ -269,14 +297,33 @@ body {
   width: 7rem;
   height: 2.6rem;
   border-radius: 2rem;
-  justify-content: flex-start;
   align-items: center;
   padding-inline: 0.75rem;
+  cursor: pointer;
 }
 
-.theme__toggle__switch>span {
+#toggle-ball {
   width: 1.6rem;
   height: 1.6rem;
   background-color: var(--current-keys-bg-equals);
   border-radius: 50%;
+}
+
+
+/* ----screen---- */
+
+.screen {
+  height: 8.8rem;
+  background-color: var(--current-bg-300);
+  padding-inline: 2.4rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-radius: 1rem;
+}
+
+.screen__text {
+  font-size: 4rem;
+  color: var(--current-header);
+  letter-spacing: -0.06rem;
 }
