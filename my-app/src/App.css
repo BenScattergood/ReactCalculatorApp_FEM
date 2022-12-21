@@ -1,0 +1,282 @@
+/* ### Theme 1
+
+#### Backgrounds
+
+- Very dark desaturated blue (main background): hsl(222, 26%, 31%)
+- Very dark desaturated blue (toggle background, keypad background): hsl(223, 31%, 20%)
+- Very dark desaturated blue (screen background): hsl(224, 36%, 15%)
+
+#### Keys
+
+- Desaturated dark blue (key background): hsl(225, 21%, 49%)
+- Desaturated dark blue (key shadow): hsl(224, 28%, 35%)
+
+- Red (key background, toggle): hsl(6, 63%, 50%)
+- Dark red (key shadow): hsl(6, 70%, 34%)
+
+- Light grayish orange (key background): hsl(30, 25%, 89%)
+- Grayish orange (key shadow): hsl(28, 16%, 65%)
+
+#### Text
+
+- Very dark grayish blue: hsl(221, 14%, 31%)
+- White: hsl(0, 0%, 100%)
+
+### Theme 2
+
+#### Backgrounds
+
+- Light gray (main background): hsl(0, 0%, 90%)
+- Grayish red (toggle background, keypad background): hsl(0, 5%, 81%)
+- Very light gray (screen background): hsl(0, 0%, 93%)
+
+#### Keys
+
+- Dark moderate cyan (key background): hsl(185, 42%, 37%)
+- Very dark cyan (key shadow): hsl(185, 58%, 25%) toggle
+
+- Orange (key background, toggle): hsl(25, 98%, 40%)
+- Dark orange (key shadow): hsl(25, 99%, 27%) 
+
+- Light grayish yellow (key background): hsl(45, 7%, 89%)
+- Dark grayish orange (key shadow): hsl(35, 11%, 61%)
+
+#### Text
+
+- Very dark grayish yellow: hsl(60, 10%, 19%)
+- White (text): hsl(0, 0%, 100%)
+
+### Theme 3
+
+#### Backgrounds
+
+- Very dark violet (main background): hsl(268, 75%, 9%)
+- Very dark violet (toggle background, keypad background, screen background): hsl(268, 71%, 12%)
+
+#### Keys
+
+- Dark violet (key background): hsl(281, 89%, 26%)
+- Vivid magenta (key shadow): hsl(285, 91%, 52%)
+
+- Pure cyan (key background, toggle): hsl(176, 100%, 44%)
+- Soft cyan (key shadow): hsl(177, 92%, 70%)
+
+- Very dark violet (key background): hsl(268, 47%, 21%)
+- Dark magenta (key shadow): hsl(290, 70%, 36%)
+
+#### Text
+
+- Light yellow: hsl(52, 100%, 62%)
+- Very dark blue: hsl(198, 20%, 13%)
+- White (text): hsl(0, 0%, 100%)
+
+## Typography
+
+### Body Copy
+
+- Font size (numbers): 32px
+
+### Font
+
+- Family: [League Spartan](https://fonts.google.com/specimen/League+Spartan)
+- Weights: 700 */
+
+
+:root {
+  font-size: 62.5%;
+  --t1-bg-100: hsl(222, 26%, 31%);
+  --t1-bg-200: hsl(223, 31%, 20%);
+  --t1-bg-300: hsl(224, 36%, 15%);
+  --t1-keys-bg-reset: hsl(225, 21%, 49%);
+  --t1-keys-shadow-reset: hsl(224, 28%, 35%);
+  --t1-keys-toggle-reset: hsla(184, 40%, 56%, 1);
+  --t1-keys-bg-equals: hsl(6, 63%, 50%);
+  --t1-keys-shadow-equals: hsl(6, 70%, 34%);
+  --t1-keys-toggle-equals: hsla(25, 100%, 61%, 1);
+  --t1-keys-bg-regular: hsl(30, 25%, 89%);
+  --t1-keys-shadow-regular: hsl(28, 16%, 65%);
+  --t1-keys-toggle-regular: hsla(0, 0%, 100%, 1);
+  --t1-keys-text-regular: hsl(221, 14%, 31%);
+  --t1-keys-text-equals: hsl(0, 0%, 100%);
+  --t1-header: hsla(0, 0%, 100%, 1);
+
+
+  --current-bg-100: var(--t1-bg-100);
+  --current-bg-200: var(--t1-bg-200);
+  --current-bg-300: var(--t1-bg-300);
+  --current-keys-bg-reset: var(--t1-keys-bg-reset);
+  --current-keys-shadow-reset: var(--t1-keys-shadow-reset);
+  --current-keys-toggle-reset: var(--t1-keys-toggle-reset);
+  --current-keys-bg-equals: var(--t1-keys-bg-equals);
+  --current-keys-shadow-equals: var(--t1-keys-shadow-equals);
+  --current-keys-toggle-equals: (--t1-keys-toggle-equals);
+  --current-keys-bg-regular: var(--t1-keys-bg-regular);
+  --current-keys-shadow-regular: var(--t1-keys-shadow-regular);
+  --current-keys-toggle-regular: var(--t1-keys-toggle-regular);
+  --current-keys-text-regular: var(--t1-keys-text-regular);
+  --current-keys-text-equals: var(--t1-keys-text-equals);
+  --current-header: var(--t1-header);
+}
+
+/*-----CSS Reset---- */
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ----Custom CSS---- */
+
+body {
+  font-family: 'League Spartan', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.bg-100 {
+  background-color: var(--current-bg-100);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  padding-top: 4rem;
+}
+
+.wrapper {
+  max-width: 375px;
+  padding-inline: 3rem;
+}
+
+
+/*navbar*/
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.navbar__heading {
+  color: var(--current-header);
+  letter-spacing: -0.05rem;
+  font-size: 3.2rem;
+}
+
+.navbar__theme {
+  display: flex;
+  gap: 2rem;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  letter-spacing: 0.1rem;
+  align-items: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.theme__label {
+  color: var(--current-header);
+  margin-bottom: 0.3rem;
+}
+
+.theme__toggle {
+  display: flex;
+  flex-direction: column;
+  width: 7rem;
+}
+
+.theme__toggle__labels {
+  display: flex;
+  justify-content: space-around;
+  padding-inline: 0.75rem;
+}
+
+.theme__toggle__labels>p {
+  color: var(--current-header);
+}
+
+.theme__toggle__switch {
+  display: flex;
+  background-color: var(--current-bg-200);
+  width: 7rem;
+  height: 2.6rem;
+  border-radius: 2rem;
+  justify-content: flex-start;
+  align-items: center;
+  padding-inline: 0.75rem;
+}
+
+.theme__toggle__switch>span {
+  width: 1.6rem;
+  height: 1.6rem;
+  background-color: var(--current-keys-bg-equals);
+  border-radius: 50%;
+}
