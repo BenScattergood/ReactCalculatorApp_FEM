@@ -89,7 +89,7 @@
   --t1-bg-300: hsl(224, 36%, 15%);
   --t1-keys-bg-reset: hsl(225, 21%, 49%);
   --t1-keys-shadow-reset: hsl(224, 28%, 35%);
-  --t1-keys-toggle-reset: hsla(184, 40%, 56%, 1);
+  --t1-keys-toggle-reset: hsla(224, 51%, 76%, 1);
   --t1-keys-bg-equals: hsl(6, 63%, 50%);
   --t1-keys-shadow-equals: hsl(6, 70%, 34%);
   --t1-keys-toggle-equals: hsla(25, 100%, 61%, 1);
@@ -100,21 +100,37 @@
   --t1-keys-text-equals: hsl(0, 0%, 100%);
   --t1-header: hsla(0, 0%, 100%, 1);
 
-  --t2-bg-100: hsl(222, 26%, 31%);
-  --t2-bg-200: hsl(223, 31%, 20%);
-  --t2-bg-300: hsl(224, 36%, 15%);
-  --t2-keys-bg-reset: hsl(225, 21%, 49%);
-  --t2-keys-shadow-reset: hsl(224, 28%, 35%);
+  --t2-bg-100: hsl(0, 0%, 90%);
+  --t2-bg-200: hsl(0, 5%, 81%);
+  --t2-bg-300: hsl(0, 0%, 93%);
+  --t2-keys-bg-reset: hsl(185, 42%, 37%);
+  --t2-keys-shadow-reset: hsl(185, 58%, 25%);
   --t2-keys-toggle-reset: hsla(184, 40%, 56%, 1);
-  --t2-keys-bg-equals: hsl(6, 63%, 50%);
-  --t2-keys-shadow-equals: hsl(6, 70%, 34%);
+  --t2-keys-bg-equals: hsl(25, 98%, 40%);
+  --t2-keys-shadow-equals: hsl(25, 99%, 27%);
   --t2-keys-toggle-equals: hsla(25, 100%, 61%, 1);
-  --t2-keys-bg-regular: hsl(30, 25%, 89%);
-  --t2-keys-shadow-regular: hsl(28, 16%, 65%);
+  --t2-keys-bg-regular: hsl(45, 7%, 89%);
+  --t2-keys-shadow-regular: hsl(35, 11%, 61%);
   --t2-keys-toggle-regular: hsla(0, 0%, 100%, 1);
-  --t2-keys-text-regular: hsl(221, 14%, 31%);
+  --t2-keys-text-regular: hsl(60, 10%, 19%);
   --t2-keys-text-equals: hsl(0, 0%, 100%);
-  --t2-header: hsla(0, 0%, 100%, 1);
+  --t2-header: hsla(60, 10%, 19%, 1);
+
+  --t3-bg-100: hsl(268, 75%, 9%);
+  --t3-bg-200: hsl(268, 71%, 12%);
+  --t3-bg-300: hsl(268, 71%, 12%);
+  --t3-keys-bg-reset: hsl(281, 89%, 26%);
+  --t3-keys-shadow-reset: hsl(285, 91%, 52%);
+  --t3-keys-toggle-reset: hsla(280, 56%, 44%, 1);
+  --t3-keys-bg-equals: hsl(176, 100%, 44%);
+  --t3-keys-shadow-equals: hsl(177, 92%, 70%);
+  --t3-keys-toggle-equals: hsla(176, 100%, 79%, 1);
+  --t3-keys-bg-regular: hsl(268, 47%, 21%);
+  --t3-keys-shadow-regular: hsl(290, 70%, 36%);
+  --t3-keys-toggle-regular: hsla(268, 54%, 44%, 1);
+  --t3-keys-text-regular: hsl(52, 100%, 62%);
+  --t3-keys-text-equals: hsla(0, 0%, 100%, 1);
+  --t3-header: hsla(52, 100%, 62%, 1);
 
   --current-bg-100: var(--t1-bg-100);
   --current-bg-200: var(--t1-bg-200);
@@ -171,6 +187,8 @@ html:focus-within {
 body {
   min-height: 100vh;
   line-height: 1.5;
+  transition-property: all;
+  transition-duration: 500ms;
 }
 
 /* A elements that don't have a class get default styles */
@@ -215,6 +233,7 @@ body {
   font-family: 'League Spartan', sans-serif;
   font-size: 1.6rem;
   font-weight: 700;
+  overflow-x: hidden;
 }
 
 .bg-100 {
@@ -224,14 +243,21 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  padding-top: 4rem;
+  align-items: center;
+  margin-block: 4rem;
   gap: 2.5rem;
+  padding-inline: 3rem;
 }
 
 .wrapper {
-  max-width: 375px;
-  margin-inline: 3rem;
+  max-width: 32.7rem;
+  width: 100%;
+}
+
+@media only screen and (min-width: 700px) {
+  .wrapper {
+    max-width: 54rem;
+  }
 }
 
 .flex-start {
@@ -322,8 +348,108 @@ body {
   border-radius: 1rem;
 }
 
+@media only screen and (min-width: 700px) {
+  .screen {
+    padding-inline: 3.2rem;
+  }
+}
+
 .screen__text {
   font-size: 4rem;
   color: var(--current-header);
   letter-spacing: -0.06rem;
+}
+
+/*----Keys----*/
+
+.keys {
+  display: flex;
+  background-color: var(--current-bg-200);
+  padding: 2.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.3rem;
+  justify-content: center;
+  border-radius: 1rem;
+}
+
+.keys__key {
+  width: 6rem;
+  height: 6.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  cursor: pointer;
+  letter-spacing: -0.03rem;
+}
+
+@media only screen and (min-width: 700px) {
+  .keys {
+    gap: 2.4rem;
+    padding: 3.2rem;
+  }
+
+  .keys__key {
+    width: 10.1rem;
+  }
+}
+
+/*---key themes---*/
+
+.regular-theme {
+  background-color: var(--current-keys-bg-regular);
+  color: var(--current-keys-text-regular);
+  border-bottom: 0.4rem solid var(--current-keys-shadow-regular);
+  font-size: 3.2rem;
+}
+
+.regular-theme:hover {
+  background-color: var(--current-keys-toggle-regular);
+}
+
+.reset-theme {
+  background-color: var(--current-keys-bg-reset);
+  color: var(--current-keys-text-equals);
+  border-bottom: 0.4rem solid var(--current-keys-shadow-reset);
+  font-size: 2rem;
+}
+
+.reset-theme:hover {
+  background-color: var(--current-keys-toggle-reset);
+}
+
+.equals-theme {
+  background-color: var(--current-keys-bg-equals);
+  color: var(--current-keys-text-equals);
+  border-bottom: 0.4rem solid var(--current-keys-shadow-equals);
+  font-size: 2rem;
+}
+
+.equals-theme:hover {
+  background-color: var(--current-keys-toggle-equals);
+}
+
+@media only screen and (min-width: 700px) {
+  .regular-theme {
+    font-size: 4rem;
+  }
+
+  .reset-theme {
+    font-size: 2.8rem;
+  }
+
+  .equals-theme {
+    font-size: 2.8rem;
+  }
+}
+
+.large-button {
+  width: 13.3rem;
+}
+
+@media only screen and (min-width: 700px) {
+  .large-button {
+    width: 22.6rem;
+  }
 }

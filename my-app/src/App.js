@@ -1,12 +1,14 @@
 import './App.css';
 import Navbar from './components/Navbar';
 import React from 'react'
+import Screen from './components/Screen';
+import Keys from './components/Keys';
 
 export default function App() {
   const [currentTheme, setCurrentTheme] = React.useState(1)
+  const [displayValue, setDisplayValue] = React.useState(0)
 
   React.useEffect(() => {
-    const color = getComputedStyle(document.documentElement).getPropertyValue('--current-bg-100');
     switch (currentTheme) {
       case 1:
         changePropertyColor("t1")
@@ -20,8 +22,6 @@ export default function App() {
       default:
         changePropertyColor("t1")
     }
-
-    console.log(color)
   }, [currentTheme])
 
   function changePropertyColor(theme) {
@@ -42,16 +42,41 @@ export default function App() {
     document.documentElement.style.setProperty("--current-header", `var(--${theme}-header)`);
   }
 
+  function addNumber(value) {
+    setDisplayValue(prevValue => {
+      return (
+        prevValue + value
+      )
+    })
+  }
+
+  function addOperator(operator) {
+    const currentSplitOperator = alreadySplit()
+    if (currentSplitOperator.length !== 0) {
+      //check if there is number after.
+      //perform calculation
+      //add to end
+      return
+    }
+    setDisplayValue(prevValue => prevValue + operator)
+  }
+
+  function alreadySplit() {
+    if (displayValue.includes("+")) { return "+" }
+    if (displayValue.includes("-")) { return "-" }
+    if (displayValue.includes("/")) { return "/" }
+    if (displayValue.includes("x")) { return "x" }
+    return ("")
+  }
+
   return (
     <div className="container">
       <Navbar
         setCurrentTheme={setCurrentTheme}
         currentTheme={currentTheme}
       />
-      <div className="wrapper screen">
-        <h3 className="screen__text">123,4</h3>
-      </div>
-      <main className=""></main>
+      <Screen displayValue={displayValue} />
+      <Keys addNumber={addNumber} addOperator={addOperator} />
     </div>
 
   );
