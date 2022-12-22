@@ -6,7 +6,7 @@ import Keys from './components/Keys';
 
 export default function App() {
   const [currentTheme, setCurrentTheme] = React.useState(1)
-  const [displayValue, setDisplayValue] = React.useState(0)
+  const [displayValue, setDisplayValue] = React.useState("0")
 
   React.useEffect(() => {
     switch (currentTheme) {
@@ -42,31 +42,84 @@ export default function App() {
     document.documentElement.style.setProperty("--current-header", `var(--${theme}-header)`);
   }
 
-  function addNumber(value) {
+  function addValue(value) {
     setDisplayValue(prevValue => {
-      return (
-        prevValue + value
-      )
+      const currentNumber = getCurrentWorkingNumber(prevValue)
+      if (currentNumber === "0" && value !== ".") { return value }
+      if (currentNumber === "" && value === ".") { return prevValue + "0" + value }
+      if (currentNumber.includes(".") && value === ".") { return prevValue }
+      else { return prevValue + value }
     })
   }
 
   function addOperator(operator) {
-    const currentSplitOperator = alreadySplit()
-    if (currentSplitOperator.length !== 0) {
-      //check if there is number after.
-      //perform calculation
-      //add to end
+    const currentSplitOperator = returnSplitOperator()
+    if (currentSplitOperator.length === 0) {
+      setDisplayValue(prevValue => prevValue + operator)
       return
     }
-    setDisplayValue(prevValue => prevValue + operator)
+
+    const splitNumbersArr = SplitNumbers(currentSplitOperator)
+
+    if (splitNumbersArr[1].length === 0) {
+      setDisplayValue(prevValue =>
+        prevValue.slice(0, prevValue.length - 1) + operator)
+      return
+    }
+    if (Number(splitNumbersArr[1]) === 0 && currentSplitOperator === "/") {
+      //divide by zero exception
+      return
+    }
+
+    const currentTotal = ReturnCalculatedAnswer(currentSplitOperator, splitNumbersArr)
+    setDisplayValue(currentTotal + operator)
+    return
   }
 
-  function alreadySplit() {
+  function deleteDigit() {
+    setDisplayValue(prevValue => {
+      if (prevValue === "0") { return "0" }
+      const newValue = prevValue.slice(0, prevValue.length - 1)
+      if (newValue.length === 0) { return "0" }
+      return newValue
+    })
+  }
+
+  function resetDisplay() {
+    setDisplayValue("0")
+  }
+
+  function returnSplitOperator() {
     if (displayValue.includes("+")) { return "+" }
     if (displayValue.includes("-")) { return "-" }
     if (displayValue.includes("/")) { return "/" }
     if (displayValue.includes("x")) { return "x" }
     return ("")
+  }
+
+  function SplitNumbers(splitValue) {
+    return displayValue.split(splitValue)
+  }
+
+  function ReturnCalculatedAnswer(operator, splitNumbersArr) {
+    switch (operator) {
+      case "+":
+        return Number(splitNumbersArr[0]) + Number(splitNumbersArr[1])
+      case "-":
+        return Number(splitNumbersArr[0]) - Number(splitNumbersArr[1])
+      case "x":
+        return Number(splitNumbersArr[0]) * Number(splitNumbersArr[1])
+      case "/":
+        return Number(splitNumbersArr[0]) / Number(splitNumbersArr[1])
+      default:
+        return 0
+    }
+  }
+
+  function getCurrentWorkingNumber(displayValue) {
+    const currentSplitOperator = returnSplitOperator()
+    if (currentSplitOperator.length === 0) { return displayValue }
+    return SplitNumbers(currentSplitOperator)[1]
   }
 
   return (
@@ -76,7 +129,10 @@ export default function App() {
         currentTheme={currentTheme}
       />
       <Screen displayValue={displayValue} />
-      <Keys addNumber={addNumber} addOperator={addOperator} />
+      <Keys addNumber={addValue}
+        addOperator={addOperator}
+        del={deleteDigit}
+        reset={resetDisplay} />
     </div>
 
   );

@@ -1,35 +1,35 @@
 import Key from "./Key"
 
-export default function Keys({ addNumber, addOperator }) {
+export default function Keys({ addValue, addOperator, del, reset }) {
     return (
         <main className="keys wrapper">
             <Key theme="regular-theme"
                 value="7"
-                clickEvent={addNumber}
+                clickEvent={addValue}
             />
             <Key theme="regular-theme"
                 value="8"
-                clickEvent={addNumber}
+                clickEvent={addValue}
             />
             <Key theme="regular-theme"
                 value="9"
-                clickEvent={addNumber}
+                clickEvent={addValue}
             />
             <Key theme="reset-theme"
                 value="DEL"
-
+                clickEvent={del}
             />
             <Key theme="regular-theme"
                 value="4"
-                clickEvent={addNumber}
+                clickEvent={addValue}
             />
             <Key theme="regular-theme"
                 value="5"
-                clickEvent={addNumber}
+                clickEvent={addValue}
             />
             <Key theme="regular-theme"
                 value="6"
-                clickEvent={addNumber}
+                clickEvent={addValue}
             />
             <Key theme="regular-theme"
                 value="+"
@@ -37,15 +37,15 @@ export default function Keys({ addNumber, addOperator }) {
             />
             <Key theme="regular-theme"
                 value="1"
-                clickEvent={addNumber}
+                clickEvent={addValue}
             />
             <Key theme="regular-theme"
                 value="2"
-                clickEvent={addNumber}
+                clickEvent={addValue}
             />
             <Key theme="regular-theme"
                 value="3"
-                clickEvent={addNumber}
+                clickEvent={addValue}
             />
             <Key theme="regular-theme"
                 value="-"
@@ -53,10 +53,11 @@ export default function Keys({ addNumber, addOperator }) {
             />
             <Key theme="regular-theme"
                 value="."
+                clickEvent={addValue}
             />
             <Key theme="regular-theme"
                 value="0"
-                clickEvent={addNumber}
+                clickEvent={addValue}
             />
             <Key theme="regular-theme"
                 value="/"
@@ -69,6 +70,7 @@ export default function Keys({ addNumber, addOperator }) {
             <Key theme="reset-theme"
                 value="RESET"
                 features="large-button"
+                clickEvent={reset}
             />
             <Key theme="equals-theme"
                 value="="
