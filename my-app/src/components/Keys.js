@@ -1,19 +1,19 @@
 import Key from "./Key"
 
-export default function Keys({ addValue, addOperator, del, reset }) {
+export default function Keys({ addDigitOrDecimal, addOperator, del, reset, equalsKeyPressed }) {
     return (
         <main className="keys wrapper">
             <Key theme="regular-theme"
                 value="7"
-                clickEvent={addValue}
+                clickEvent={addDigitOrDecimal}
             />
             <Key theme="regular-theme"
                 value="8"
-                clickEvent={addValue}
+                clickEvent={addDigitOrDecimal}
             />
             <Key theme="regular-theme"
                 value="9"
-                clickEvent={addValue}
+                clickEvent={addDigitOrDecimal}
             />
             <Key theme="reset-theme"
                 value="DEL"
@@ -21,15 +21,15 @@ export default function Keys({ addValue, addOperator, del, reset }) {
             />
             <Key theme="regular-theme"
                 value="4"
-                clickEvent={addValue}
+                clickEvent={addDigitOrDecimal}
             />
             <Key theme="regular-theme"
                 value="5"
-                clickEvent={addValue}
+                clickEvent={addDigitOrDecimal}
             />
             <Key theme="regular-theme"
                 value="6"
-                clickEvent={addValue}
+                clickEvent={addDigitOrDecimal}
             />
             <Key theme="regular-theme"
                 value="+"
@@ -37,15 +37,15 @@ export default function Keys({ addValue, addOperator, del, reset }) {
             />
             <Key theme="regular-theme"
                 value="1"
-                clickEvent={addValue}
+                clickEvent={addDigitOrDecimal}
             />
             <Key theme="regular-theme"
                 value="2"
-                clickEvent={addValue}
+                clickEvent={addDigitOrDecimal}
             />
             <Key theme="regular-theme"
                 value="3"
-                clickEvent={addValue}
+                clickEvent={addDigitOrDecimal}
             />
             <Key theme="regular-theme"
                 value="-"
@@ -53,11 +53,11 @@ export default function Keys({ addValue, addOperator, del, reset }) {
             />
             <Key theme="regular-theme"
                 value="."
-                clickEvent={addValue}
+                clickEvent={addDigitOrDecimal}
             />
             <Key theme="regular-theme"
                 value="0"
-                clickEvent={addValue}
+                clickEvent={addDigitOrDecimal}
             />
             <Key theme="regular-theme"
                 value="/"
@@ -75,6 +75,7 @@ export default function Keys({ addValue, addOperator, del, reset }) {
             <Key theme="equals-theme"
                 value="="
                 features="large-button"
+                clickEvent={equalsKeyPressed}
             />
         </main>
     )

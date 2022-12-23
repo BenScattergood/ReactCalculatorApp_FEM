@@ -6,7 +6,7 @@ import Keys from './components/Keys';
 
 export default function App() {
   const [currentTheme, setCurrentTheme] = React.useState(1)
-  const [displayValue, setDisplayValue] = React.useState("0")
+  const [displayValue, setDisplayValue] = React.useState(initializeValueObject())
 
   React.useEffect(() => {
     switch (currentTheme) {
@@ -42,84 +42,251 @@ export default function App() {
     document.documentElement.style.setProperty("--current-header", `var(--${theme}-header)`);
   }
 
-  function addValue(value) {
-    setDisplayValue(prevValue => {
-      const currentNumber = getCurrentWorkingNumber(prevValue)
-      if (currentNumber === "0" && value !== ".") { return value }
-      if (currentNumber === "" && value === ".") { return prevValue + "0" + value }
-      if (currentNumber.includes(".") && value === ".") { return prevValue }
-      else { return prevValue + value }
-    })
+  function addDigitOrDecimal(value) {
+    if (failsErrorCheck()) {
+      return
+    }
+    if (displayValue.operator !== "") {
+      //second number
+      if (failsDecimalCheck(displayValue.secondNumber, value)) { return }
+      if (failsIsZeroCheck(displayValue.secondNumber, value)) { return }
+      addValueToNumber("secondNumber", value)
+      return
+    }
+    //first number
+    if (failsDecimalCheck(displayValue.firstNumber, value)) { return }
+    if (failsIsZeroCheck(displayValue.firstNumber, value)) { return }
+    addValueToNumber("firstNumber", value)
   }
 
   function addOperator(operator) {
-    const currentSplitOperator = returnSplitOperator()
-    if (currentSplitOperator.length === 0) {
-      setDisplayValue(prevValue => prevValue + operator)
+    if (failsErrorCheck()) {
       return
     }
-
-    const splitNumbersArr = SplitNumbers(currentSplitOperator)
-
-    if (splitNumbersArr[1].length === 0) {
-      setDisplayValue(prevValue =>
-        prevValue.slice(0, prevValue.length - 1) + operator)
+    console.log(operator)
+    if (operatorIsAlreadySet()) {
+      if (currentOperatorUpdated(operator)) {
+        return
+      }
+      if (failsDivideByZeroException()) {
+        return
+      }
+      updateWithCalculation(operator)
       return
     }
-    if (Number(splitNumbersArr[1]) === 0 && currentSplitOperator === "/") {
-      //divide by zero exception
-      return
-    }
-
-    const currentTotal = ReturnCalculatedAnswer(currentSplitOperator, splitNumbersArr)
-    setDisplayValue(currentTotal + operator)
+    updateOperatorOnly(operator)
+    //update operator - same method
     return
   }
 
-  function deleteDigit() {
+  function addValueToNumber(firstOrSecondNumber, value) {
+    if (valueIsDecimalAndNumberIsEmpty(value, firstOrSecondNumber, displayValue)) {
+      setDisplayValue(prevValue => {
+        const updatedDisplayValue = returnObjectWithFirstOrSecondNumberUpdated
+          (prevValue, firstOrSecondNumber, "0.")
+        return (updatedDisplayValue)
+      })
+    }
+    else if (valueIsNotDecimalAndNumberIsZero(firstOrSecondNumber, value)) {
+      setDisplayValue(prevValue => {
+        const updatedDisplayValue = returnObjectWithFirstOrSecondNumberUpdated
+          (prevValue, firstOrSecondNumber, value)
+        return (updatedDisplayValue)
+      })
+    }
+    else {
+      setDisplayValue(prevValue => {
+        const updatedValue = returnFirstOrSecondNumber(
+          firstOrSecondNumber, prevValue) + value
+        const updatedDisplayValue = returnObjectWithFirstOrSecondNumberUpdated
+          (prevValue, firstOrSecondNumber, updatedValue)
+        return (updatedDisplayValue)
+      })
+    }
+  }
+
+  function equalsKeyPressed(operator) {
+    if (failsErrorCheck()) {
+      return
+    }
+    if (operator !== "=") { return }
+    if (displayValue.secondNumber.length === 0) { return }
+    if (failsDivideByZeroException()) { return }
+    updateWithCalculation("")
+  }
+
+  function failsErrorCheck() {
+    const value = returnDisplayScreenValue()
+    if (value.includes("e" || value.includes("NaN") || value.includes("Infinity"))) {
+      resetDisplay();
+      return true
+    }
+    return false
+  }
+
+  function valueIsNotDecimalAndNumberIsZero(firstOrSecondNumber, value) {
+    if (returnFirstOrSecondNumber(firstOrSecondNumber, displayValue) === "0"
+      && value !== ".") {
+      return true
+    }
+    return false
+  }
+
+  function returnObjectWithFirstOrSecondNumberUpdated(prevValue, firstOrSecondNumber, value) {
+    return ({
+      ...prevValue,
+      [firstOrSecondNumber]: value.toString()
+    })
+  }
+
+  function valueIsDecimalAndNumberIsEmpty(value, firstOrSecondNumber, displayValue) {
+    if (value === "." && returnFirstOrSecondNumber(
+      firstOrSecondNumber, displayValue).length === 0) {
+      return true
+    }
+    return false
+  }
+
+  function returnFirstOrSecondNumber(firstOrSecondNumber, prevValue) {
+    switch (firstOrSecondNumber) {
+      case "firstNumber":
+        return prevValue.firstNumber.toString()
+      case "secondNumber":
+        return prevValue.secondNumber.toString()
+      default:
+        return prevValue.firstNumber.toString()
+    }
+  }
+
+  function failsDivideByZeroException() {
+    if (displayValue.operator === "/" && Number(displayValue.secondNumber) === 0) {
+      return true
+    }
+    return false
+  }
+
+  function updateOperatorOnly(operator) {
     setDisplayValue(prevValue => {
-      if (prevValue === "0") { return "0" }
-      const newValue = prevValue.slice(0, prevValue.length - 1)
-      if (newValue.length === 0) { return "0" }
-      return newValue
+      return ({
+        ...prevValue,
+        "operator": operator
+      })
+    })
+  }
+
+  function updateWithCalculation(operator) {
+    setDisplayValue(prevValue => {
+      return ({
+        "firstNumber": ReturnCalculatedAnswer
+          (prevValue.operator, [prevValue.firstNumber, prevValue.secondNumber]),
+        "operator": operator,
+        secondNumber: ""
+      })
+    })
+  }
+
+  function currentOperatorUpdated(operator) {
+    if (displayValue.secondNumber.length === 0) {
+      updateOperatorOnly(operator)
+      return true
+    }
+    return false
+  }
+
+  function operatorIsAlreadySet() {
+    if (displayValue.operator.length !== 0) {
+      return true
+    }
+    return false
+  }
+
+  function failsIsZeroCheck(number, digit) {
+    if ((number === "0") && digit === "0") {
+      return true
+    }
+    return false
+  }
+
+  function failsDecimalCheck(number, value) {
+    if (value === "." && alreadyContainsDecimal(number)) {
+      return true
+    }
+    return false
+  }
+
+  function alreadyContainsDecimal(number) {
+    if (number.includes(".")) {
+      return true
+    }
+    return false
+  }
+
+  function deleteDigit() {
+    if (failsErrorCheck()) {
+      return
+    }
+    setDisplayValue(prevValue => {
+      if (prevValue.secondNumber.length > 0) {
+        return ({
+          ...prevValue,
+          "secondNumber": prevValue.secondNumber.slice(0, -1)
+        })
+      }
+      else if (prevValue.operator !== "") {
+        return ({
+          ...prevValue,
+          "operator": ""
+        })
+      }
+      else if (prevValue.firstNumber.length === 1) {
+        return (initializeValueObject())
+      }
+      else if (prevValue.firstNumber.length === 2 && prevValue.firstNumber.toString()[0] === "-") {
+        return (initializeValueObject())
+      }
+      else {
+        return ({
+          ...prevValue,
+          "firstNumber": prevValue.firstNumber.toString().slice(0, -1)
+        })
+      }
     })
   }
 
   function resetDisplay() {
-    setDisplayValue("0")
-  }
-
-  function returnSplitOperator() {
-    if (displayValue.includes("+")) { return "+" }
-    if (displayValue.includes("-")) { return "-" }
-    if (displayValue.includes("/")) { return "/" }
-    if (displayValue.includes("x")) { return "x" }
-    return ("")
-  }
-
-  function SplitNumbers(splitValue) {
-    return displayValue.split(splitValue)
+    setDisplayValue({
+      "firstNumber": "0",
+      "operator": "",
+      "secondNumber": ""
+    })
   }
 
   function ReturnCalculatedAnswer(operator, splitNumbersArr) {
     switch (operator) {
       case "+":
-        return Number(splitNumbersArr[0]) + Number(splitNumbersArr[1])
+        return Number(splitNumbersArr[0]) + Number(splitNumbersArr[1]).toString()
       case "-":
-        return Number(splitNumbersArr[0]) - Number(splitNumbersArr[1])
+        return Number(splitNumbersArr[0]) - Number(splitNumbersArr[1]).toString()
       case "x":
-        return Number(splitNumbersArr[0]) * Number(splitNumbersArr[1])
+        return Number(splitNumbersArr[0]) * Number(splitNumbersArr[1]).toString()
       case "/":
-        return Number(splitNumbersArr[0]) / Number(splitNumbersArr[1])
+        return Number(splitNumbersArr[0]) / Number(splitNumbersArr[1]).toString()
       default:
         return 0
     }
   }
 
-  function getCurrentWorkingNumber(displayValue) {
-    const currentSplitOperator = returnSplitOperator()
-    if (currentSplitOperator.length === 0) { return displayValue }
-    return SplitNumbers(currentSplitOperator)[1]
+  function initializeValueObject() {
+    return ({
+      firstNumber: "0",
+      secondNumber: "",
+      operator: ""
+    })
+  }
+
+  function returnDisplayScreenValue() {
+    return (displayValue.firstNumber + displayValue.operator +
+      displayValue.secondNumber)
   }
 
   return (
@@ -128,11 +295,12 @@ export default function App() {
         setCurrentTheme={setCurrentTheme}
         currentTheme={currentTheme}
       />
-      <Screen displayValue={displayValue} />
-      <Keys addNumber={addValue}
+      <Screen displayValue={returnDisplayScreenValue()} />
+      <Keys addDigitOrDecimal={addDigitOrDecimal}
         addOperator={addOperator}
         del={deleteDigit}
-        reset={resetDisplay} />
+        reset={resetDisplay}
+        equalsKeyPressed={equalsKeyPressed} />
     </div>
 
   );

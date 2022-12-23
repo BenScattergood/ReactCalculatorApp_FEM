@@ -346,6 +346,7 @@ body {
   justify-content: flex-end;
   align-items: center;
   border-radius: 1rem;
+  overflow-x: hidden;
 }
 
 @media only screen and (min-width: 700px) {
@@ -358,6 +359,7 @@ body {
   font-size: 4rem;
   color: var(--current-header);
   letter-spacing: -0.06rem;
+
 }
 
 /*----Keys----*/
