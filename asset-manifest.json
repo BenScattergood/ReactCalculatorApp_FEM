@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ReactCalculatorApp_FEM/static/css/main.0a726fd5.css",
+    "main.js": "/ReactCalculatorApp_FEM/static/js/main.753e186f.js",
+    "index.html": "/ReactCalculatorApp_FEM/index.html",
+    "main.0a726fd5.css.map": "/ReactCalculatorApp_FEM/static/css/main.0a726fd5.css.map",
+    "main.753e186f.js.map": "/ReactCalculatorApp_FEM/static/js/main.753e186f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0a726fd5.css",
+    "static/js/main.753e186f.js"
+  ]
+}
