@@ -264,7 +264,7 @@ export default function App() {
   function ReturnCalculatedAnswer(operator, splitNumbersArr) {
     switch (operator) {
       case "+":
-        return Number(splitNumbersArr[0]) + Number(splitNumbersArr[1]).toString()
+        return (Number(splitNumbersArr[0]) + Number(splitNumbersArr[1])).toString()
       case "-":
         return Number(splitNumbersArr[0]) - Number(splitNumbersArr[1]).toString()
       case "x":
